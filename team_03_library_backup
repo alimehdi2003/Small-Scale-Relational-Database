@@ -1,0 +1,960 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.1 (Postgres.app)
+-- Dumped by pg_dump version 17.0
+
+-- Started on 2024-12-08 21:40:38 EST
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 3710 (class 1262 OID 16432)
+-- Name: library; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE library WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'en_US.UTF-8';
+
+
+ALTER DATABASE library OWNER TO postgres;
+
+\connect library
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 228 (class 1259 OID 16473)
+-- Name: authors; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.authors (
+    author_id integer NOT NULL,
+    author_name character varying(255),
+    birth_year integer
+);
+
+
+ALTER TABLE public.authors OWNER TO postgres;
+
+--
+-- TOC entry 227 (class 1259 OID 16472)
+-- Name: authors_author_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.authors_author_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.authors_author_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3711 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: authors_author_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.authors_author_id_seq OWNED BY public.authors.author_id;
+
+
+--
+-- TOC entry 225 (class 1259 OID 16463)
+-- Name: awards; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.awards (
+    award_id integer NOT NULL,
+    book_id integer,
+    award_name character varying(255),
+    year integer
+);
+
+
+ALTER TABLE public.awards OWNER TO postgres;
+
+--
+-- TOC entry 224 (class 1259 OID 16462)
+-- Name: awards_award_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.awards_award_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.awards_award_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3712 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: awards_award_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.awards_award_id_seq OWNED BY public.awards.award_id;
+
+
+--
+-- TOC entry 220 (class 1259 OID 16434)
+-- Name: books; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.books (
+    book_id integer NOT NULL,
+    title character varying(255),
+    author_id integer,
+    genre_id integer,
+    award_id integer,
+    publication_year integer,
+    publisher character varying(255),
+    price numeric(10,2)
+);
+
+
+ALTER TABLE public.books OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 16433)
+-- Name: books_book_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.books_book_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.books_book_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3713 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: books_book_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.books_book_id_seq OWNED BY public.books.book_id;
+
+
+--
+-- TOC entry 222 (class 1259 OID 16451)
+-- Name: genres; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.genres (
+    genre_id integer NOT NULL,
+    genre_name character varying(255)
+);
+
+
+ALTER TABLE public.genres OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 16450)
+-- Name: genres_genre_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.genres_genre_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.genres_genre_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3714 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: genres_genre_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.genres_genre_id_seq OWNED BY public.genres.genre_id;
+
+
+--
+-- TOC entry 3543 (class 2604 OID 16476)
+-- Name: authors author_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.authors ALTER COLUMN author_id SET DEFAULT nextval('public.authors_author_id_seq'::regclass);
+
+
+--
+-- TOC entry 3542 (class 2604 OID 16466)
+-- Name: awards award_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.awards ALTER COLUMN award_id SET DEFAULT nextval('public.awards_award_id_seq'::regclass);
+
+
+--
+-- TOC entry 3540 (class 2604 OID 16437)
+-- Name: books book_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.books ALTER COLUMN book_id SET DEFAULT nextval('public.books_book_id_seq'::regclass);
+
+
+--
+-- TOC entry 3541 (class 2604 OID 16454)
+-- Name: genres genre_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genres ALTER COLUMN genre_id SET DEFAULT nextval('public.genres_genre_id_seq'::regclass);
+
+
+--
+-- TOC entry 3704 (class 0 OID 16473)
+-- Dependencies: 228
+-- Data for Name: authors; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.authors (author_id, author_name, birth_year) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3702 (class 0 OID 16463)
+-- Dependencies: 225
+-- Data for Name: awards; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.awards (award_id, book_id, award_name, year) FROM stdin;
+1	1	Jerome David Salinger Award	1952
+2	2	Retro-Hugo Award	1949
+3	3	Pulitzer Prize for Fiction	1961
+4	4	National Book Award	1925
+5	5	The Melville Society Prize	1851
+6	6	Miguel de Cervantes Prize	1961
+7	7	Bram Stoker Award	1993
+8	8	Pulitzer Prize for Fiction	1988
+9	9	\N	2019
+10	10	\N	2017
+11	11	\N	1981
+12	12	Hugo Award for Best Novel	1966
+13	13	Nebula Award	1965
+14	14	Booker Prize	1972
+15	15	Edgar Allan Poe Award	1990
+16	16	Nobel Prize in Literature	1982
+17	17	National Critics Circle Award	1974
+18	18	Lambda Literary Award	1989
+19	19	Costa Book Award	1995
+20	20	PEN/Faulkner Award	1981
+21	21	Caldecott Medal	1947
+22	22	Carnegie Medal	1956
+23	23	Newbery Medal	1938
+24	24	Giller Prize	1994
+25	25	Anisfield-Wolf Book Award	1963
+26	26	Prix Goncourt	1919
+27	27	Bailey’s Women’s Prize for Fiction	2002
+28	28	Golden Man Booker Prize	2018
+29	29	Hugo Award for Best Dramatic Presentation	1970
+30	30	Science Fiction & Fantasy Hall of Fame	1996
+31	31	Los Angeles Times Book Prize	1981
+32	32	Hans Christian Andersen Award	1958
+33	33	Orange Prize for Fiction	1996
+34	34	Whiting Award	1985
+35	35	Guardian Fiction Prize	1971
+36	36	Commonwealth Writers’ Prize	1987
+37	37	Franz Kafka Prize	2001
+38	38	Grand Prix de Littérature Policière	1955
+39	39	Premio Strega	1947
+40	40	Agatha Award	1990
+41	41	Seiun Award	1972
+42	42	Aurealis Award	1995
+43	43	International IMPAC Dublin Award	1996
+44	44	Irish Book Awards	2006
+45	45	Locus Award	1971
+46	46	Robert F. Kennedy Book Award	1980
+47	47	Booker International Prize	2005
+48	48	American Book Award	1978
+49	49	Stonewall Book Award	1971
+50	50	Arthur C. Clarke Award	1987
+51	51	Shirley Jackson Award	2007
+52	52	World Fantasy Award	1975
+53	53	New York Times Bestseller	1984
+54	54	Sydney Taylor Book Award	1968
+55	55	Children’s Literature Legacy Award	1954
+56	56	Edgar Award	1946
+57	57	Nobel Peace Prize (Literary Mention)	1973
+58	58	PEN/Malamud Award	1996
+59	59	Dayton Literary Peace Prize	2006
+60	60	National Book Critics Circle Award	1976
+61	61	Alex Award	1998
+62	62	Gold Dagger Award	1964
+63	63	MacArthur Fellowship	1981
+64	64	Science in Literature Award	2003
+65	65	Booker Prize (Longlist Mention)	2004
+66	66	Best Historical Fiction	2022
+67	67	Most Innovative Novel	2023
+68	68	Best Psychological Thriller	2021
+69	69	Top Seller of the Year	2020
+70	70	Book of the Decade	2019
+71	71	Best Nonfiction	2023
+72	72	Best Literary Fiction	2022
+73	73	Best Romance	2021
+74	74	Winner of Book Prize 2023	2023
+75	75	Best Mystery Novel	2021
+76	76	National Book Award	2022
+77	77	Top Fiction of the Year	2021
+78	78	New York Times Bestseller	2023
+79	79	Best Thriller	2020
+80	80	Best Debut Novel	2022
+81	81	Goodreads Choice Award	2021
+82	82	Pulitzer Prize for Fiction	2020
+83	83	Best Fantasy Novel	2021
+84	84	Best Author of the Year	2022
+85	85	Best Book for Young Adults	2023
+86	86	Booker Prize Finalist	2022
+87	87	Bestseller of the Year	2021
+88	88	Best Sci-Fi Novel	2023
+89	89	Best Author’s Debut	2022
+90	90	Favorite Crime Thriller	2021
+91	91	Best Historical Nonfiction	2020
+92	92	Best Romance Novel	2023
+93	93	Best Novel of the Year	2022
+94	94	Best Historical Fiction	2021
+95	95	Top Mystery Bestseller	2020
+96	96	Top Literary Fiction	2022
+97	97	New York Times Bestselling Fiction	2020
+98	98	Author of the Year	2023
+99	99	Best Adventure Book	2022
+100	100	Best Novel for Teens	2021
+101	101	Best Historical Fiction	2021
+102	102	Best Fiction of the Year	2023
+103	103	Most Popular Thriller	2020
+104	104	Best Sci-Fi Novel	2022
+105	105	Best New Author	2023
+106	106	Best Literary Fiction	2021
+107	107	Best Graphic Novel	2022
+108	108	Best Nonfiction Award	2023
+109	109	Favorite Mystery Novel	2021
+110	110	Best Fiction for Teens	2023
+111	111	New York Times Bestseller	2021
+112	112	National Book Award Finalist	2020
+113	113	Best Historical Novel	2022
+114	114	Most Unique Storyline	2021
+115	115	Goodreads Choice Award	2020
+116	116	Book of the Year	2023
+117	117	Best Debut Fiction	2022
+118	118	Best Adventure Fiction	2021
+119	119	Best Sci-Fi Novel of the Year	2023
+120	120	Best Romance of the Year	2021
+121	121	Best Family Fiction	2020
+122	122	Best Fantasy Novel	2023
+123	123	Bestseller of the Year	2022
+124	124	Most Captivating Thriller	2021
+125	125	Best Short Story Collection	2023
+126	126	Top Romance Book	2021
+127	127	Best Mystery Author	2022
+128	128	Top Fantasy Author	2023
+129	129	Best Young Adult Novel	2020
+130	130	Most Liked Novel	2022
+131	131	Award for Best Plot	2021
+132	132	Best Nonfiction Biography	2023
+133	133	Best Author’s Novel	2020
+134	134	Author of the Year	2023
+135	135	Best Thriller Book of the Year	2021
+136	136	Best Novel for Book Lovers	2022
+137	137	Winner of Book Critics Award	2020
+138	138	Most Inspiring Novel	2023
+139	139	Best Historical Fiction	2021
+140	140	Book of the Year (Teen Fiction)	2022
+141	141	Most Compelling Novel	2020
+142	142	Best Literary Fiction Novel	2023
+143	143	Best Classic Novel	2021
+144	144	Top Contemporary Fiction	2022
+145	145	Best New Mystery	2021
+146	146	Most Thought-Provoking Book	2023
+147	147	Best Young Adult Fiction	2022
+148	148	Best Romance of the Year	2020
+149	149	Top Historical Novel	2021
+150	150	Winner of Fiction Prize	2023
+151	151	Best Thriller of the Year	2021
+152	152	Top Author of the Year	2023
+153	153	Best Mystery Novel	2020
+154	154	Best Adventure Book	2022
+155	155	Best Fiction for Teens	2023
+156	156	Most Popular Nonfiction	2021
+157	157	Best Science Fiction Novel	2022
+158	158	Best Romance Novel	2020
+159	159	New York Times Bestseller	2023
+160	160	Best Literary Fiction	2021
+161	161	Best Historical Fiction	2022
+162	162	Best Biographical Novel	2020
+163	163	Top Fantasy Fiction	2023
+164	164	Best Classic Novel	2021
+165	165	Best Drama Novel	2022
+166	166	Best Historical Novel	2020
+167	167	Most Captivating Fiction	2023
+168	168	Best Short Fiction	2021
+169	169	Best Author Collaboration	2022
+170	170	Best Narrative Nonfiction	2020
+171	171	Best Fantasy Adventure	2023
+172	172	Book Critics’ Choice	2021
+173	173	Best Sci-Fi Thriller	2022
+174	174	Top Mystery Fiction	2020
+175	175	Award for Excellence in Fiction	2023
+176	176	Best Fiction of the Decade	2021
+177	177	Book of the Year (Nonfiction)	2022
+178	178	Most Thoughtful Novel	2020
+179	179	Most Groundbreaking Fiction	2023
+180	180	Best Young Adult Fiction	2021
+181	181	Best Romance Story	2022
+182	182	Best Contemporary Fiction	2020
+183	183	Top Literary Work	2023
+184	184	Best Coming-of-Age Novel	2021
+185	185	Best Historical Romance	2022
+186	186	Top Fiction of the Year	2020
+187	187	Best Literary Masterpiece	2023
+188	188	Award for Top Sci-Fi	2021
+189	189	Best Fictional Universe	2022
+190	190	Best Narrative Fiction	2020
+191	191	Best Mystery Thriller	2023
+192	192	Best Adventure Story	2021
+193	193	Top Fantasy Novel of the Year	2022
+194	194	Best Family Fiction	2020
+195	195	Best Romance Author	2023
+196	196	Best Nonfiction Biography	2021
+197	197	Most Creative Fiction	2022
+198	198	Book of the Year (Romance)	2020
+199	199	Best Fiction Novel of the Year	2023
+200	200	Best Short Story Collection	2021
+\.
+
+
+--
+-- TOC entry 3698 (class 0 OID 16434)
+-- Dependencies: 220
+-- Data for Name: books; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.books (book_id, title, author_id, genre_id, award_id, publication_year, publisher, price) FROM stdin;
+1	1984	1	1	1	1949	Harvill Secker	40.51
+2	Pride and Prejudice	2	2	2	1813	Penguin Classics	8.34
+3	The Great Gatsby	3	5	3	1999	Charles Scribner's Sons	7.29
+4	Moby-Dick	4	2	4	1851	Penguin Classics	39.89
+5	To Kill a Mockingbird	5	1	5	2021	J.B. Lippincott & Co.	19.87
+6	The Odyssey	6	6	6	800	Penguin Classics	38.45
+7	The Catcher in the Rye	7	2	7	1890	Little, Brown and Company	27.23
+8	The Picture of Dorian Gray	8	2	8	2021	Penguin Classics	49.26
+9	The Night Manager	9	7	9	2021	Viking	42.09
+10	The Martian	10	9	10	2019	Crown Publishing Group	51.20
+11	The Silent Patient	11	9	11	2007	Celadon Books	26.29
+12	The Brief Wondrous Life of Oscar Wao	12	2	12	1988	Riverhead Books	20.83
+13	The Alchemist	13	9	13	1890	HarperOne	8.03
+14	To Kill a Mockingbird	14	1	14	2020	J.B. Lippincott & Co.	28.28
+15	The Picture of Dorian Gray	15	1	15	2020	Penguin Classics	8.41
+16	The Sun Also Rises	16	1	16	2020	Scribner	32.51
+17	The Hunger Games	17	9	17	2021	Scholastic Press	16.46
+18	The Handmaid's Tale	18	7	18	2016	Anchor	12.50
+19	The Godfather	19	2	19	2021	G.P. Putnam's Sons	49.87
+20	A Little Life	20	2	20	2021	Viking Press	5.12
+21	The Night Circus	21	9	21	2021	Doubleday	6.90
+22	The Night Watchman	22	7	22	2021	St. Martin's Press	36.61
+23	The Rosie Project	23	9	23	2019	Simon & Schuster	25.94
+24	The Girl with the Louding Voice	24	2	24	2007	Dutton Books	47.19
+25	The Kite Runner	25	9	25	1988	Riverhead Books	35.45
+26	The Vanishing Half	26	9	26	1890	Riverhead Books	6.55
+27	The Immortalists	27	2	27	2020	Riverhead Books	14.33
+28	The Secret History	28	7	28	2013	Vintage	43.92
+29	The Paris Library	29	7	29	2020	William Morrow	43.97
+30	The Underground Railroad	30	2	30	2020	Doubleday	24.82
+31	Educated	31	7	31	2021	Random House	38.12
+32	The Great Gatsby	32	5	32	2016	Charles Scribner's Sons	37.97
+33	The Catcher in the Rye	33	2	33	2021	Little, Brown and Company	37.80
+34	The Night Manager	34	8	34	2021	Viking	13.01
+35	The Martian	35	9	35	2021	Crown Publishing Group	38.19
+36	The Silent Patient	36	9	36	2021	Celadon Books	17.06
+37	The Brief Wondrous Life of Oscar Wao	37	2	37	2019	Riverhead Books	39.95
+38	The Alchemist	38	9	38	2007	HarperOne	14.24
+39	To Kill a Mockingbird	39	1	39	1988	J.B. Lippincott & Co.	37.99
+40	The Picture of Dorian Gray	40	1	40	1890	Penguin Classics	25.99
+41	The Sun Also Rises	41	1	41	2020	Scribner	8.26
+42	The Hunger Games	42	9	42	2020	Scholastic Press	52.42
+43	The Handmaid's Tale	43	7	43	2018	Anchor	44.66
+44	The Godfather	44	2	44	2018	G.P. Putnam's Sons	39.28
+45	A Little Life	45	2	45	2018	Viking Press	20.94
+46	The Night Circus	46	9	46	2007	Doubleday	12.38
+47	The Night Watchman	47	7	47	2019	St. Martin's Press	20.52
+48	The Rosie Project	48	9	48	2019	Simon & Schuster	46.20
+49	The Girl with the Louding Voice	49	2	49	2019	Dutton Books	9.99
+50	The Kite Runner	50	9	50	2021	Riverhead Books	52.84
+51	The Vanishing Half	51	9	51	2021	Riverhead Books	33.50
+52	The Immortalists	52	2	52	2021	Riverhead Books	32.47
+53	The Secret History	53	7	53	2013	Vintage	27.52
+54	The Paris Library	54	7	54	2021	William Morrow	51.00
+55	The Underground Railroad	55	2	55	2021	Doubleday	45.58
+56	Educated	56	7	56	2021	Random House	21.27
+57	The Great Gatsby	57	5	57	2021	Charles Scribner's Sons	23.19
+58	The Catcher in the Rye	58	2	58	2019	Little, Brown and Company	11.83
+59	The Night Manager	59	8	59	2007	Viking	24.99
+60	The Martian	60	9	60	1988	Crown Publishing Group	15.86
+61	The Silent Patient	61	9	61	1890	Celadon Books	38.85
+62	The Brief Wondrous Life of Oscar Wao	62	2	62	2020	Riverhead Books	22.73
+63	The Alchemist	63	9	63	2019	HarperOne	19.00
+64	To Kill a Mockingbird	64	1	64	2016	J.B. Lippincott & Co.	25.17
+65	The Picture of Dorian Gray	65	1	65	2021	Penguin Classics	22.45
+66	The Midnight Library	66	9	66	2019	HarperCollins	12.56
+67	The Testaments	67	7	67	2021	Doubleday	18.60
+68	Circe	68	5	68	2021	Little, Brown and Company	15.62
+69	Becoming	69	7	69	2021	Crown Publishing Group	48.65
+70	Where the Crawdads Sing	70	2	70	2016	Penguin Random House	50.04
+71	A Thousand Splendid Suns	71	2	71	2021	Riverhead Books	27.73
+72	Verity	72	9	72	2017	Grand Central Publishing	23.99
+73	The Giver of Stars	73	7	73	2017	Penguin Random House	38.27
+74	The Dutch House	74	2	74	2021	HarperCollins	20.62
+75	It Ends with Us	75	9	75	2021	Atria Books	39.35
+76	The Paper Palace	76	2	76	2020	Viking	5.41
+77	Project Hail Mary	77	9	77	2018	Ballantine Books	6.75
+78	The Love Hypothesis	78	9	78	2020	Berkley	26.19
+79	The 5th Wave	79	2	79	2020	G.P. Putnam's Sons	31.36
+80	Malibu Rising	80	9	80	2015	Penguin Random House	42.68
+81	Of Mice and Men	81	1	81	2015	Covici Friede	51.11
+82	Before We Were Strangers	82	9	82	2021	Atria Books	10.71
+83	East of Eden	83	1	83	2021	Viking Press	38.44
+84	An American Marriage	84	7	84	2020	Algonquin Books	38.07
+85	The Night Watch	85	7	85	2020	Riverhead Books	49.70
+86	The Light We Lost	86	9	86	2021	G.P. Putnam's Sons	25.01
+87	Daisy Jones & The Six	87	9	87	2017	Ballantine Books	48.11
+88	The Grapes of Wrath	88	1	88	2021	Viking Press	10.62
+89	Little Fires Everywhere	89	9	89	2021	Penguin Random House	29.83
+90	Eleanor Oliphant Is Completely Fine	90	9	90	2021	HarperCollins	7.22
+91	The Water Dancer	91	7	91	2020	One World	44.85
+92	Ugly Love	92	9	92	2020	Atria Books	16.81
+93	Looking for Alaska	93	9	93	2020	Penguin Random House	19.49
+94	The Road	94	7	94	2021	Knopf	22.23
+95	Slaughterhouse-Five	95	5	95	2019	Delacorte Press	50.33
+96	Water for Elephants	96	7	96	2017	Algonquin Books	16.06
+97	Life of Pi	97	7	97	2021	Canongate Books	38.27
+98	Catch-22	98	5	98	2020	Simon & Schuster	14.72
+99	A Farewell to Arms	99	1	99	2020	Scribner	22.29
+100	Beach Read	100	9	100	2021	Penguin Random House	22.71
+101	Such a Fun Age	101	7	101	2021	Berkley	50.62
+102	Normal People	102	9	102	2021	Faber & Faber	22.06
+103	One Day	103	9	103	2020	Knopf	48.34
+104	The Lovely Bones	104	7	104	2021	Little, Brown and Company	38.84
+105	Me Before You	105	9	105	2021	Viking	33.11
+106	The Light Between Oceans	106	7	106	2021	Scribner	22.23
+107	The Bell Jar	107	9	107	2018	Heinemann	7.16
+108	Beloved	108	7	108	2018	Alfred A. Knopf	23.73
+109	The Kite Runner	109	7	109	2017	Riverhead Books	42.16
+110	The Book Thief	110	9	110	2019	Alfred A. Knopf	16.41
+111	Brave New World	111	5	111	2021	Chatto & Windus	17.44
+112	Room	112	7	112	2020	Picador	49.90
+113	Eleanor & Park	113	9	113	2020	St. Martin's Press	33.88
+114	American Dirt	114	7	114	2019	Viking Press	41.85
+115	The Rosie Result	115	9	115	2020	Simon & Schuster	46.35
+116	The Good Sister	116	7	116	2021	Berkley	6.87
+117	Big Little Lies	117	9	117	2021	Berkley	28.81
+118	The Nightingale	118	9	118	2021	St. Martin's Press	53.73
+119	Every Summer After	119	9	119	2020	Berkley	40.40
+120	Ask Again, Yes	120	7	120	2021	Scribner	20.91
+121	The Spanish Love Deception	121	9	121	2021	HarperCollins	32.45
+122	The Seven Husbands of Evelyn Hugo	122	9	122	2021	Washington Square Press	15.60
+123	The Bromance Book Club	123	9	123	2021	Berkley	39.26
+124	The Last House on Needless Street	124	9	124	2019	Tor Nightfire	21.84
+125	Book Lovers	125	9	125	2021	Berkley	10.84
+126	A Thousand Splendid Suns	126	7	126	1890	Riverhead Books	36.27
+127	Milk and Honey	127	10	127	2020	Andrews McMeel Publishing	30.29
+128	The Help	128	7	128	2020	Penguin Random House	37.97
+129	1984	129	5	129	2020	Secker & Warburg	49.89
+130	The Great Gatsby	130	1	130	2021	Scribner	20.36
+131	The Silent Patient	131	7	131	2016	Celadon Books	50.73
+132	To Kill a Mockingbird	132	1	132	2021	J.B. Lippincott & Co.	31.64
+133	Verity	133	7	133	2021	Grand Central Publishing	16.09
+134	Of Mice and Men	134	1	134	2021	Covici Friede	25.48
+135	Circe	135	7	135	2021	Little, Brown and Company	18.89
+136	The Paris Library	136	7	136	2019	Atria Books	10.11
+137	The Night Watchman	137	7	137	2007	HarperCollins	36.40
+138	Malibu Rising	138	9	138	1988	Ballantine Books	6.58
+139	The Paper Palace	139	9	139	1890	Penguin Random House	22.95
+140	The Love Hypothesis	140	9	140	2020	Berkley	16.60
+141	Anxious People	141	9	141	2013	Atria Books	35.05
+142	People We Meet on Vacation	142	9	142	2020	Berkley	21.01
+143	It Ends with Us	143	9	143	2020	Atria Books	38.48
+144	The Invisible Life of Addie LaRue	144	7	144	2021	Tor Books	23.94
+145	Lessons in Chemistry	145	7	145	2016	Doubleday	29.61
+146	The Last Time I Lied	146	7	146	2021	Dutton Books	8.71
+147	The Giver of Stars	147	7	147	2021	Pamela Dorman Books	8.83
+148	We Were Liars	148	9	148	2021	Delacorte Press	28.83
+149	Tomorrow, and Tomorrow, and Tomorrow	149	7	149	2021	Knopf	12.01
+150	All the Light We Cannot See	150	7	150	2019	Scribner	6.83
+151	Where the Crawdads Sing	151	7	151	2007	G.P. Putnam's Sons	36.65
+152	Daisy Jones & The Six	152	7	152	1988	Ballantine Books	34.13
+153	Before We Were Strangers	153	9	153	1890	Atria Books	13.82
+154	The Seven Husbands of Evelyn Hugo	154	7	154	2020	Atria Books	31.80
+155	Little Fires Everywhere	155	7	155	2020	Penguin Books	14.07
+156	Ugly Love	156	9	156	2018	Atria Books	8.20
+157	Me Before You	157	9	157	2018	Penguin Books	29.14
+158	Book Lovers	158	9	158	2018	Berkley	24.32
+159	Beach Read	159	9	159	2007	Berkley	44.74
+160	The Light We Lost	160	7	160	2019	G.P. Putnam's Sons	41.15
+161	Red Queen	161	10	161	2019	HarperTeen	43.73
+162	The Spanish Love Deception	162	9	162	2019	Atria Books	39.68
+163	It Happened One Summer	163	9	163	2021	Avon	34.78
+164	The Nightingale	164	7	164	2021	St. Martin's Press	51.97
+165	One Last Stop	165	9	165	2021	St. Martin's Griffin	12.96
+166	The Hating Game	166	9	166	2013	William Morrow	47.02
+167	Beloved	167	7	167	2021	Vintage International	50.67
+168	Eleanor Oliphant Is Completely Fine	168	7	168	2021	Penguin Books	32.48
+169	The Guest List	169	7	169	2021	William Morrow	44.04
+170	All Your Perfects	170	9	170	2021	Atria Books	16.61
+171	The Last Mrs. Parrish	171	7	171	2019	Harper	35.62
+172	The Chain	172	7	172	2007	Mulholland Books	21.92
+173	The Love Hypothesis	173	9	173	1988	Berkley	39.84
+174	The Couple Next Door	174	7	174	1890	Pamela Dorman Books	39.60
+175	The Family Upstairs	175	7	175	2020	Atria Books	39.70
+176	The Wife Between Us	176	7	176	2019	St. Martin's Press	46.12
+177	The Midnight Library	177	7	177	2016	Riverhead Books	9.48
+178	The Paris Apartment	178	7	178	1890	Atria Books	42.89
+179	The Woman in the Window	179	7	179	2020	HarperCollins	32.92
+180	The Inheritance Games	180	10	180	2020	Jimmy Patterson	17.96
+181	The Silent Corner	181	9	181	2020	Thomas & Mercer	52.77
+182	The Girl on the Train	182	7	182	2021	Riverhead Books	44.19
+183	The Tattooist of Auschwitz	183	7	183	2016	Harlequin Books	20.06
+184	The House in the Cerulean Sea	184	9	184	2021	Tor Books	39.29
+185	The Last Thing He Told Me	185	7	185	2021	Delacorte Press	52.15
+186	The Night She Disappeared	186	7	186	2021	Minotaur Books	8.14
+187	Anxious People	187	7	187	2021	Flatiron Books	28.67
+188	The Huntress	188	7	188	2019	St. Martin's Press	19.38
+189	The Seven Dials Mystery	189	5	189	2007	HarperCollins	28.12
+190	The Orphan's Tale	190	7	190	1988	William Morrow	14.48
+191	The Girl with the Louding Voice	191	2	191	1890	Dutton Books	48.87
+192	The Four Winds	192	7	192	2020	St. Martin's Press	7.21
+193	The Maid	193	7	193	2013	Atria Books	32.28
+194	The Lost Apothecary	194	7	194	2020	Park Row	22.91
+195	The Great Alone	195	7	195	2020	St. Martin's Press	24.58
+196	The Giver of Stars	196	7	196	2021	Jodi Picoult	6.18
+197	The Lincoln Highway	197	7	197	2016	Viking	6.37
+198	The Midnight Library	198	7	198	2021	Riverhead Books	9.66
+199	The Paper Palace	199	7	199	2021	Bloomsbury	22.77
+200	The Henna Artist	200	7	200	2021	Park Row	11.20
+\.
+
+
+--
+-- TOC entry 3700 (class 0 OID 16451)
+-- Dependencies: 222
+-- Data for Name: genres; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.genres (genre_id, genre_name) FROM stdin;
+1	Literary Fiction
+2	Dystopian Fiction
+3	Southern Gothic
+4	Adventure Fiction
+5	Magical Realism
+6	Horror
+7	Historical Fiction
+8	Apocalyptic Fiction
+9	Science Fiction
+10	Mystery
+11	Fantasy
+12	Thriller
+13	Romance
+14	Biographical Fiction
+15	Satire
+16	Gothic Fiction
+17	Bildungsroman
+18	Philosophical Fiction
+19	Postmodern Fiction
+20	Technothriller
+21	Memoir
+22	Biography
+23	Science
+24	History
+25	Self-Help
+26	Travel Writing
+27	Journalism
+28	Philosophy
+29	Political Science
+30	Economics
+31	Education
+32	Art
+33	Music
+34	Sports
+35	Health & Fitness
+36	Technology
+37	Nature
+38	True Crime
+39	Essays
+40	Criticism
+41	Religion
+42	Sociology
+43	Anthropology
+44	Psychology
+45	Medicine
+46	Architecture
+47	Food & Cooking
+48	Gardening
+49	Parenting
+50	Law
+51	Cultural Studies
+52	Linguistics
+53	Environmental Studies
+54	Mathematics
+55	Physics
+56	Chemistry
+57	Astronomy
+58	Computer Science
+59	Engineering
+60	Business
+61	Political Memoir
+62	Travel Memoir
+63	Cultural History
+64	Adventure Memoir
+65	Pop Culture Studies
+66	Dystopian Fiction
+67	Southern Gothic
+68	Adventure Fiction
+69	Magical Realism
+70	Horror
+71	Historical Fiction
+72	Apocalyptic Fiction
+73	Science Fiction
+74	Mystery
+75	Fantasy
+76	Thriller
+77	Romance
+78	Biographical Fiction
+79	Satire
+80	Gothic Fiction
+81	Bildungsroman
+82	Philosophical Fiction
+83	Postmodern Fiction
+84	Technothriller
+85	Memoir
+86	Biography
+87	Science
+88	History
+89	Self-Help
+90	Travel Writing
+91	Journalism
+92	Philosophy
+93	Political Science
+94	Economics
+95	Education
+96	Art
+97	Music
+98	Sports
+99	Health & Fitness
+100	Technology
+101	Nature
+102	True Crime
+103	Essays
+104	Criticism
+105	Religion
+106	Sociology
+107	Anthropology
+108	Psychology
+109	Medicine
+110	Architecture
+111	Food & Cooking
+112	Gardening
+113	Parenting
+114	Law
+115	Cultural Studies
+116	Linguistics
+117	Environmental Studies
+118	Mathematics
+119	Physics
+120	Chemistry
+121	Astronomy
+122	Computer Science
+123	Engineering
+124	Business
+125	Political Memoir
+126	Travel Memoir
+127	Cultural History
+128	Adventure Memoir
+129	Pop Culture Studies
+130	Mystery
+131	Literary Fiction
+132	Dystopian Fiction
+133	Southern Gothic
+134	Adventure Fiction
+135	Magical Realism
+136	Horror
+137	Historical Fiction
+138	Apocalyptic Fiction
+139	Science Fiction
+140	Mystery
+141	Fantasy
+142	Thriller
+143	Romance
+144	Biographical Fiction
+145	Satire
+146	Gothic Fiction
+147	Bildungsroman
+148	Philosophical Fiction
+149	Postmodern Fiction
+150	Technothriller
+151	Memoir
+152	Biography
+153	Science
+154	History
+155	Self-Help
+156	Travel Writing
+157	Journalism
+158	Philosophy
+159	Political Science
+160	Economics
+161	Education
+162	Art
+163	Music
+164	Sports
+165	Health & Fitness
+166	Technology
+167	Nature
+168	True Crime
+169	Essays
+170	Criticism
+171	Religion
+172	Sociology
+173	Anthropology
+174	Psychology
+175	Medicine
+176	Architecture
+177	Food & Cooking
+178	Gardening
+179	Parenting
+180	Law
+181	Cultural Studies
+182	Linguistics
+183	Environmental Studies
+184	Mathematics
+185	Physics
+186	Chemistry
+187	Astronomy
+188	Computer Science
+189	Engineering
+190	Business
+191	Political Memoir
+192	Travel Memoir
+193	Cultural History
+194	Adventure Memoir
+195	Pop Culture Studies
+196	Mystery
+197	Literary Fiction
+198	Dystopian Fiction
+199	Southern Gothic
+200	Adventure Fiction
+\.
+
+
+--
+-- TOC entry 3715 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: authors_author_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.authors_author_id_seq', 1, false);
+
+
+--
+-- TOC entry 3716 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: awards_award_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.awards_award_id_seq', 1, false);
+
+
+--
+-- TOC entry 3717 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: books_book_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.books_book_id_seq', 1, false);
+
+
+--
+-- TOC entry 3718 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: genres_genre_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.genres_genre_id_seq', 1, false);
+
+
+--
+-- TOC entry 3551 (class 2606 OID 16478)
+-- Name: authors authors_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.authors
+    ADD CONSTRAINT authors_pkey PRIMARY KEY (author_id);
+
+
+--
+-- TOC entry 3549 (class 2606 OID 16468)
+-- Name: awards awards_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.awards
+    ADD CONSTRAINT awards_pkey PRIMARY KEY (award_id);
+
+
+--
+-- TOC entry 3545 (class 2606 OID 16441)
+-- Name: books books_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.books
+    ADD CONSTRAINT books_pkey PRIMARY KEY (book_id);
+
+
+--
+-- TOC entry 3547 (class 2606 OID 16456)
+-- Name: genres genres_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genres
+    ADD CONSTRAINT genres_pkey PRIMARY KEY (genre_id);
+
+
+-- Completed on 2024-12-08 21:40:42 EST
+
+--
+-- PostgreSQL database dump complete
+--
+
